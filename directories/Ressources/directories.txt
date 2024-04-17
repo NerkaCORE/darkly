@@ -1,0 +1,27 @@
+Lorsqu'on va sur la page de connexion, on remarque que le lien est http://192.168.1.5/?page=signin. On peut voir que cette url prend un paramètre appelé page et sa valeur est 'signin'.
+On en déduit que la valeur représente la page auquel nous souhaitons accèder.
+
+Si on essaie de changer la valeur, par exemple par 'qwerty', une alerte s'affiche avec écrit 'wtf'.
+On se rend donc compte qu'un intermédiaire 'répond' à ce que nous demandons à travers l'url.
+
+Si on lui demande le dossier parent avec '../' il nous répond aussi 'wtf', par contre si on lui le dossier d'encore avant donc '../../' l'alerte change, cette fois si il nous envoie une alerte avec écrit 'wrong'. 
+
+On essaie donc encore le dossier plus haut et cette fois ci on obtient 'nope'.
+On peut continuer ainsi jusqu'à obtenir ' You can DO it !!!  :] ' :
+
+../			Wtf ?
+../../			Wrong..
+../../../		Nope..
+../../../../		Almost.
+../../../../../		Still nope..
+../../../../../../	Nope..
+../../../../../../../	You can DO it !!!  :]
+
+Et à partir de là, pour chaque dossier parent on obtient toujours le dernier message.
+On se dit donc que cela ne suffit pas et qu'il faut surement aussi le nom du fichier auquel on veut accèder.
+
+Après un peu de réflexion, on arrive au fait que dans les challenges du genre 'capture the flag' il y a souvent un fichier auquel on veut accèder car il contient les mots de passe utilisateur, c'est le fichier passwd qui se trouve dans le dossier /etc/.
+
+En essayant ce chemin : ../../../../../../../etc/passwd , on obtient donc le flag de ce challenge.
+
+Pour éviter ce problème, il suffit de restreindre l'accès aux dossiers, c'est même extrêmement important de le faire.

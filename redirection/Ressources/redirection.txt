@@ -1,0 +1,17 @@
+Tout en bas de la page d'accueil, on peut voir qu'il y a 3 boutons chacun liés à un réseau social.
+
+En inspectant ces éléments on se rend compte avec le 'href' que ces boutons ne nous redirigent pas directement vers les réseaux sociaux mais d'abord vers une page 'redirect' qui prend des paramètres : par exemple 'site=facebook'.
+
+Si on essaie de modifier le 2eme paramètre et de le remplacer par n'importe quoi par exemple :
+
+On modifie : 
+
+<a href="index.php?page=redirect&site=twitter" class="icon fa-twitter"></a>
+
+En :
+
+<a href="index.php?page=redirect&site=42" class="icon fa-twitter"></a>
+
+Et qu'on clique sur le logo correspondant, la page s'actualise et on obtient le flag.
+
+On devrait toujours vérifier les paramètres de requête côté serveur et gérer les erreurs, car si l'on ne vérifie pas un hacker pourrait conduire un utilisateur vers un site malveillant en utilisant notre URL qui en elle-même ressemblerait à une url inoffensive mais avec un résultat différent.

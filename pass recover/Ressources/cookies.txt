@@ -1,0 +1,10 @@
+Lorsque l'on accède à la page de connexion 'http://192.168.1.5/?page=signin', on peut voir qu'il y a un bouton 'forgot my password', si l'on clique dessus on arrive sur la page qui sert à récupérer son mot de passe perdu. 
+
+Généralement sur cette page on a un formulaire avec au moins un input pour écrire son mail et un bouton 'submit', or ici on ne voit que le bouton submit.
+
+En y regardant de plus près avec l'inspecteur on peut voir que cet input existe bel et bien mais qu'il a été caché avec 'type=hidden', on peut donc l'afficher en changeant la valeur en 'visible'
+Le champs apparait et on peut voir un placeholder avec la valeur 'webmaster@borntosec.com'
+
+On essaie donc de changer la valeur de ce champs et hop le flag apparait au dessus, on pouvait aussi juste supprimer la valeur et cela aurait aussi fonctionné.
+
+Nous pourrions facilement éviter ce genre de problème en ne mettant aucun élément caché dans notre code source car il peut être facilement modifié. Au lieu de cela, nous pourrions vérifier certains éléments spécifiques dans le backend pour déterminer qui a envoyé la demande ou même définir un id unique.

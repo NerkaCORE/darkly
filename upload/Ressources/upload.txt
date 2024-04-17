@@ -1,0 +1,21 @@
+Sur la page d'accueil on peut trouver un bouton 'Add image', lorsqu'on clique dessus on est redirigé la page upload ( http://192.168.1.5/?page=upload ).
+
+Sur cette page il y a un bouton 'choose file' et un bouton 'upload', et au dessus de ces boutons on nous indique de choisir une image pour l'uploader.
+
+Si on essaie d'uploader un png, la page se rafraichit et la phrase 'Your image was not uploaded.' apparait. On essaie de nouveau avec un jpeg et cela fonctionne.. 
+On se doute donc que ce n'est pas l'image en soit qui est vérifiée mais juste l'extension du fichier.
+
+Pour confirmer cela on peut simplement créer un fichier avec l'extension jpeg et tester, et en effet cela fonctionne.
+
+On pourrait donc essayer de modifier le code html dans l'inspecteur en remplaçant le type de l'input en 'image' pour que le formulaire effectue une requête post en envoyant n'importe quoi pour que le serveur pense que l'on envoie une image, cela ne marche pas malheureusement.
+
+En utilisant curl on peut très facilement upload un fichier avec le type que l'on souhaite comme ceci depuis le dossier contenant l'image :
+
+curl -s -F "uploaded=@test.png;type=image/jpeg" -F Upload=Upload "http://192.168.1.5/?page=upload" | grep flag
+
+-s : mode silent
+-F : ( --form ) Cela permet à curl d'émuler un formulaire rempli dans lequel un utilisateur a appuyé sur le bouton submit.
+
+On obtient ainsi le flag de cette faille.
+
+Ce genre de problème peut être évité en vérifiant non seulement l'extension du fichier, mais aussi en vérifiant le type de fichier en regardant à l'intérieur du contenu du fichier.

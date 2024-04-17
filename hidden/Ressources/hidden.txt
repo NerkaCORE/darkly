@@ -1,0 +1,38 @@
+On commence par jeter un coup d'oeil au robots.txt car ce fichier indique aux robots des moteurs de recherche où est ce qu'il peut aller ou non dans le site web.
+
+On y trouve ceci :
+
+User-agent: *
+Disallow: /whatever
+Disallow: /.hidden
+
+Cela nous dit qu'aucun logiciel ne devrait aller dans ces dossiers.
+On va donc commencer par le dossier .hidden .
+
+Lorsqu'on se rend sur le lien en question, on y trouve pleins de dossiers et un README.
+Ces dossiers contiennent tous 3 sous dossiers et chacun ont leur propre README.
+
+On comprend alors qu'il faudrait lire ces fichiers pour y trouver ce qui s'y cache.
+Cependant le faire à la main prendrait trop de temps donc pour cela : 
+
+Je télécharge tout les dossiers avec WGET :
+
+wget -r -nH –level=0 -erobots=off -q -x -k -p -np -R index.html 'http://192.168.1.5/.hidden/'
+
+-r : récursif 
+-nH : ne pas enregistrer dans un fichier avec le nom de l'hote
+-level : Spécifie la profondeur maximale profondeur pour la récursion. (0 = illimité)
+-q : silencieux
+-x : force la hiérarchisation des dossiers
+-k : convertit les liens d'un document pour qu'il soit consultable en local
+-p : télécharge tous les fichiers nécessaires à l'affichage convenable d'une page HTML donnée
+-np : pour ne pas remonter dans les dossiers parents
+-R : exclu les fichiers
+
+find . -type f -name 'README' | xargs grep -v ' '
+
+-v est utilisé pour ne pas afficher les résultats contenant le paramètre donné.
+
+Xargs est utilisé pour prendre tout ce qu'il y a en sortie de la commande précédente et de l'utiliser comme paramètre pour la prochaine commande.
+
+Afin d'éviter ce problème, il existe un fichier spécial pour restreindre l'accès aux fichiers et aux dossiers qui s'appelle .htaccess.

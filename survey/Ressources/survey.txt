@@ -1,0 +1,13 @@
+Lorsque l'on accède à la page 'survey' (http://192.168.1.5/?page=survey),
+On peut voir un tableau dans lequel on peut modifier le nombre dans la colonne 'grade'.
+Si l'on modifier ce nombre la page se rafraîchit et rien ne se passe.
+
+Si l'on ouvre l'inspecteur et qu'on regarde autour de ces blocks on remarque plusieurs choses :
+
+- un champs caché qui ne va pas nous intéresser ici.
+
+- le 'select' nous permettant de choisir parmi les différents nombres se trouve dans un formulaire qui effectue une requête 'post' de la page. Cela signifie que lorsqu'on modifie une valeur, une fonction javascript exécute un 'submit'.
+
+Tout comme dans le cas de la faille du 'recover', on peut modifier le html et voir comment le serveur réagit, on modifie donc un élément dans la colonne 'grade' par exemple le '2' par '100' et en choisissant la valeur que l'on a changer dans le select, la page se rafraichit et on obtient le flag.
+
+Pour résoudre ce problème on devrait checker la donnée envoyé côté serveur pour contrôler ce qui est envoyé par ce formulaire.

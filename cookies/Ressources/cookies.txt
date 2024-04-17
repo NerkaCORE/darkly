@@ -1,0 +1,14 @@
+Pendant un certain temps les administrateurs des sites internet utilisaient les cookies pour stocker différentes informations tel que les identifiants de connections. Ils sont générés par le serveur et stockés dans le navigateur de l'utilisateur.
+Les cookies peuvent être très utiles mais ils peuvent aussi rendre vôtre site vulnérable s'ils sont mal gérés.
+
+Lorsque l'on ouvre l'inspecteur sur la page de connection membre ( http://192.168.1.5/?page=member ),
+dans l'onglet Storage on peut apercevoir le cookie suivant :
+
+Name : I_am_admin
+Value : 68934a3e9455fa72420237eb05902327
+
+On remarque encore une fois que la valeur ressemble à un md5 et après l'avoir décrypter on obtient 'false'. En y réfléchissant un peu on se dit que mettre 'true' pourrait faire quelque chose donc on essaie mais d'abord il faut le crypter pour que la valeur soit bien prise en compte.
+
+On essaie donc de la changer par 'b326b5062b2f0e69046810717534cb09', on rafraîchit la page et hop on obtient un pop up nous donnant le flag.
+
+De nos jour, pour éviter ce genre de problème on évite tout simplement de stocker ce genre d'informations sensibles dans les cookies.

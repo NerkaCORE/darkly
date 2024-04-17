@@ -1,0 +1,23 @@
+En bas de la page d'accueil on peut voir un copyright avec un lien dessus, ce lien nous ramène vers une page avec un texte qui nous parle d'une famille d'oiseau et une image de cet oiseau avec un lien dessus qui nous ramène sur Youtube.
+
+À première vue il n'y a rien de marquant, cependant si on ouvre l'inspecteur et qu'on regarde dans le html on remarque qu'il y a plusieurs commentaires dont 2 qui nous intéresse particulièrement :
+
+- "You must comming from : "https://www.nsa.gov/" to go to the next step"
+
+- "Let's use this browser : "ft_bornToSec". It will help you a lot."
+
+On se dit donc qu'il faut arriver sur cette page en provenant du site donné au dessus.
+Dans le navigateur on ne peut pas changer son referer pour dire qu'on vient d'un autre site et bien entendu il n'y a pas de lien sur le site de la NSA qui mène vers le site sur lequel on travaille.
+On ne peut pas non plus définir un User-Agent personnalisé pour dire quel type de logiciel on utilise.
+
+Pour cela on va donc utiliser le curl :
+
+curl -s -e "https://www.nsa.gov/" -A "ft_bornToSec" "http://192.168.1.5/index.php?page=e43ad1fdc54babe674da7c7b8f0127bde61de3fbe01def7d00f151c2fcca6d1c" | grep flag
+
+-s : silent mode
+-e : Envoie les informations de la "page de référence" au serveur HTTP. (Referer)
+-A : Spécifie le User-Agent à envoyer au serveur HTTP.
+
+On obtient ainsi le flag de cette faille.
+
+On peut éviter ce genre de problèmes en ne dépendant pas des éléments du Http-header pour afficher des informations restreintes.
